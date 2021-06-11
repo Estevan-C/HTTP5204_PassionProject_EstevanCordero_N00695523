@@ -1,0 +1,50 @@
+﻿@model PersonalVideoGameLibrary.Models.VideoGameDto
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>VideoGames</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.VgName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VgName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.VgPrice)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VgPrice)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.VgHours)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VgHours)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SessionMsg)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SessionMsg)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.VideoGameID }) |
+    @Html.ActionLink("Back to List", "List")
+</p>

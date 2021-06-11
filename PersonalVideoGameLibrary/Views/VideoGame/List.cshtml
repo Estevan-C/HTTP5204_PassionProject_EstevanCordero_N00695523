@@ -1,0 +1,57 @@
+﻿@model IEnumerable<PersonalVideoGameLibrary.Models.VideoGameDto>
+
+@{
+    ViewBag.Title = "List";
+}
+
+<h2>List</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.VideoGameID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.VgName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.VgPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.VgHours)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SessionMsg)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.VideoGameID)
+    </td>
+    <td>
+        <a href="/VideoGame/Details/@item.VideoGameID">@Html.DisplayFor(modelItem => item.VgName)</a>
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.VgPrice)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.VgHours)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.SessionMsg)
+    </td>
+    <td>
+        @Html.ActionLink("Edit", "Edit", new { id = item.VideoGameID }) |
+        @Html.ActionLink("Details", "Details", new { id = item.VideoGameID }) |
+        @Html.ActionLink("Delete", "Delete", new { id = item.VideoGameID })
+    </td>
+</tr>
+}
+
+</table>

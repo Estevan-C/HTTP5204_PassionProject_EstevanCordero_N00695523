@@ -1,0 +1,23 @@
+﻿
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create Videogame</h2>
+<form action="/VideoGame/Create" method="POST">
+    <div>
+        <label>Videogame Name:</label> <input type="text" name="VgName" />
+    </div>
+    <div>
+        <label>Videogame Price</label> <input type="number" step=".01" name="VgPrice" />
+    </div>
+    <div>
+        <label>Videogame Hour</label> <input type="number" name="VgHours" />
+    </div>
+    <div>
+        <label>Videogame Session ID</label> <input type="number" name="SessionID" />
+    </div>
+    <div>
+        <input type="submit" value="Add Videogame Post"/>
+    </div>
+</form>
