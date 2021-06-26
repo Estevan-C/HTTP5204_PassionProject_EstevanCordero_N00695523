@@ -22,5 +22,6 @@
        
 ## Know Bugs
   - Can't delete a video game entry.
+  - When updating an image for a video game entry, the page needs to be refresh to see the change.
   - When making a new video game entry it will not save the message, but when updating it will assign it to that game.
   - Can't unassign a console to a video game when viewing it in details. 
