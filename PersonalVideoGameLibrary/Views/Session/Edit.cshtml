@@ -5,6 +5,10 @@
 }
 
 <h2>Update Session Message</h2>
+
+<a class="btn btn-default" href="/Session/List">Go back to list</a>
+<a class="btn btn-default" style="color:#ab2020;" href="/Session/DeleteConfirm/@Model.SessionID">Delete</a>
+
 <form action="/Session/Update/@Model.SessionID" method="POST">
     <div style="display:none;">
         <!--Pass through the Session ID-->

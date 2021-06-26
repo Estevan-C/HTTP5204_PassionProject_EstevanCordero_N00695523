@@ -8,9 +8,9 @@
 
 <nav>
     <ul>
-        <li><a href="/VideoGame/List">Go back to list</a></li>
-        <li><a href="/VideoGame/Edit/@Model.SelectedVideoGame.VideoGameID">Update</a></li>
-        <li><a style="color:#ab2020;" href="/VideoGame/DeleteConfirm/@Model.SelectedVideoGame.VideoGameID">Delete</a></li>
+        <li><a class="btn btn-default" href="/VideoGame/List">Go back to list</a></li>
+        <li><a class="btn btn-default" href="/VideoGame/Edit/@Model.SelectedVideoGame.VideoGameID">Update</a></li>
+        <li><a class="btn btn-default" style="color:#ab2020;" href="/VideoGame/DeleteConfirm/@Model.SelectedVideoGame.VideoGameID">Delete</a></li>
     </ul>
 </nav>
 <div class="row">
@@ -31,7 +31,7 @@
         <h4>Consoles Assign for @Model.SelectedVideoGame.VideoGameName:</h4>
         @foreach (var console in Model.AssignConsole)
         {
-            <a href="/Console/Details/@console.ConsoleID">@console.ConsoleName</a> <a style="color:#ab2020;" href="/VideoGame/UnAssign/@Model.SelectedVideoGame.VideoGameID?ConsoleID=@console.ConsoleID">[X]</a>
+            <a class="btn btn-default" href="/Console/Details/@console.ConsoleID">@console.ConsoleName</a> <a class="btn btn-default" style="color:#ab2020;" href="/VideoGame/UnAssign/@Model.SelectedVideoGame.VideoGameID?ConsoleID=@console.ConsoleID">[X]</a>
         }
 
         <div>
