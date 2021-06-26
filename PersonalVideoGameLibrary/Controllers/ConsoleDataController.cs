@@ -35,7 +35,7 @@ namespace PersonalVideoGameLibrary.Controllers
             Consoles.ForEach(c => ConsoleDtos.Add(new ConsoleDto()
             {
                 ConsoleID = c.ConsoleID,
-                ConsoleName = c.ConsoleName
+                ConsoleName = c.ConsoleName,
 
             }));
 
@@ -73,7 +73,32 @@ namespace PersonalVideoGameLibrary.Controllers
             return Ok(ConsoleDtos);
         }
 
-        // YOU DID NOT INCLUDED LIST CONSOLE NOT ASSIGN TO VIDEO GAME
+        /// <summary>
+        /// Returns console not assign to a video game
+        /// </summary>
+        /// <param name="id">VideoGame Primary Key</param>
+        /// <returns>
+        /// HEADER: 200 OK
+        /// CONTENT: all consoles in the database not assign to a particular video game
+        /// </returns>
+        [HttpGet]
+        [ResponseType(typeof(ConsoleDto))]
+        public IHttpActionResult ListConsoleNotAssignForVideoGame(int id)
+        {
+            List<Consoles> Consoles = db.Consoles.Where(
+                c => !c.VideoGames.Any(
+                    v => v.VideoGameID == id)
+                ).ToList();
+            List<ConsoleDto> ConsoleDtos = new List<ConsoleDto>();
+
+            Consoles.ForEach(c => ConsoleDtos.Add(new ConsoleDto()
+            {
+                ConsoleID = c.ConsoleID,
+                ConsoleName = c.ConsoleName
+            }));
+
+            return Ok(ConsoleDtos);
+        }
 
         /// <summary>
         /// Returns Console in the system base on the ID

@@ -11,6 +11,6 @@ namespace PersonalVideoGameLibrary.Models.ViewModels
         public SessionDto SelectedSession { get; set; }
 
         //Grabs the videogame and its content
-        public IEnumerable<VideoGameDto> RelatedVideoGames { get; set; }
+        public IEnumerable<VideoGameDto> RelatedVideoGame { get; set; }
     }
 }

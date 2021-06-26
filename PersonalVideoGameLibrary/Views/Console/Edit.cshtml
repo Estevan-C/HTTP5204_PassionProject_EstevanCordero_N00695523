@@ -1,0 +1,25 @@
+﻿@model PersonalVideoGameLibrary.Models.ConsoleDto
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Update Console</h2>
+
+<a class="btn btn-default" href="/Console/List">Go back to list</a>
+<a class="btn btn-default" style="color:#ab2020;" href="/Console/DeleteConfirm/@Model.ConsoleID">Delete</a>
+
+<p>
+    <form action="/Console/Update/@Model.ConsoleID" method="POST">
+        <div style="display:none">
+            <!--Pass through the Console ID-->
+            <input type="text" name="ConsoleID" value="@Model.ConsoleID" />
+        </div>
+        <div>
+            <label>Console Name:</label> <input type="text" name="ConsoleName" value="@Model.ConsoleName" />
+        </div>
+        <div>
+            <input class="btn btn-default" type="submit" value="Update Console" />
+        </div>
+    </form>
+</p>

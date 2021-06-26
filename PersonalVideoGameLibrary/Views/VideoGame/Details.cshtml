@@ -1,50 +1,50 @@
-﻿@model PersonalVideoGameLibrary.Models.VideoGameDto
+﻿@model PersonalVideoGameLibrary.Models.ViewModels.DetailsVideoGame
 
 @{
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h2>@Model.SelectedVideoGame.VideoGameName</h2>
 
-<div>
-    <h4>VideoGames</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.VgName)
-        </dt>
+<nav>
+    <ul>
+        <li><a href="/VideoGame/List">Go back to list</a></li>
+        <li><a href="/VideoGame/Edit/@Model.SelectedVideoGame.VideoGameID">Update</a></li>
+        <li><a style="color:#ab2020;" href="/VideoGame/DeleteConfirm/@Model.SelectedVideoGame.VideoGameID">Delete</a></li>
+    </ul>
+</nav>
+<div class="row">
+    <div class="col-md-6 col-sm-12">
+        @{ 
+            string imageurl = "/Content/Images/VideoGames/default.jpg";
+            if (Model.SelectedVideoGame.VideoGameHasPic)
+            {
+                imageurl = "/Content/Images/VideoGames/" + Model.SelectedVideoGame.VideoGameID + "." + Model.SelectedVideoGame.PicExtension;
+            }
+        }
+        <div><img style="display:block; max-width:100%;" alt="@Model.SelectedVideoGame.VideoGameName" src="@imageurl" /></div>
+        <div>Name: @Model.SelectedVideoGame.VideoGameName</div>
+        <div>Price: @Model.SelectedVideoGame.VideoGamePrice</div>
+        <div>Hours: @Model.SelectedVideoGame.VideoGameHours</div>
+    </div>
+    <div class="col-md-6 col-sm-12">
+        <h4>Consoles Assign for @Model.SelectedVideoGame.VideoGameName:</h4>
+        @foreach (var console in Model.AssignConsole)
+        {
+            <a href="/Console/Details/@console.ConsoleID">@console.ConsoleName</a> <a style="color:#ab2020;" href="/VideoGame/UnAssign/@Model.SelectedVideoGame.VideoGameID?ConsoleID=@console.ConsoleID">[X]</a>
+        }
 
-        <dd>
-            @Html.DisplayFor(model => model.VgName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.VgPrice)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.VgPrice)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.VgHours)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.VgHours)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.SessionMsg)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.SessionMsg)
-        </dd>
-
-    </dl>
+        <div>
+            <form method="POST" action="/VideoGame/Assign/@Model.SelectedVideoGame.VideoGameID">
+                <select name="ConsoleID">
+                    <option value="">Select Console</option>
+                    @foreach (var console in Model.UnAssignConsole)
+                    {
+                        <option value="@console.ConsoleID">@console.ConsoleName</option>
+                    }
+                </select>
+                <input type="submit" value="Add Console to Videogame" />
+            </form>
+        </div>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.VideoGameID }) |
-    @Html.ActionLink("Back to List", "List")
-</p>

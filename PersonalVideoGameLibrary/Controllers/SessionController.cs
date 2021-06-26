@@ -50,14 +50,12 @@ namespace PersonalVideoGameLibrary.Controllers
 
             ViewModel.SelectedSession = selectedSession;
 
-            // Send a request to gather information about videogames related
-            // to a particular sesion ID.
-
-            url = "videogames/listvideogamesforsessions/" + id;
+            // Finds a video game that is connected to the message
+            // curl https://localhost:44316/api/sessiondata/listsessionsforvideogames/{id}
+            url = "sessiondata/listsessionsforvideogames/" + id;
             response = client.GetAsync(url).Result;
-            IEnumerable<VideoGameDto> relatedVideoGames = response.Content.ReadAsAsync<IEnumerable<VideoGameDto>>().Result;
-
-            ViewModel.RelatedVideoGames = relatedVideoGames;
+            IEnumerable<VideoGameDto> relatedVideoGame = response.Content.ReadAsAsync<IEnumerable<VideoGameDto>>().Result;
+            ViewModel.RelatedVideoGame = relatedVideoGame;
 
             return View(ViewModel);
         }
@@ -70,7 +68,12 @@ namespace PersonalVideoGameLibrary.Controllers
         // GET: Session/New
         public ActionResult New()
         {
-            return View();
+            // Use to find the list of video games
+            string url = "videogamedata/listvideogames";
+            HttpResponseMessage response = client.GetAsync(url).Result;
+            IEnumerable<VideoGameDto> VideoGameOptions = response.Content.ReadAsAsync<IEnumerable<VideoGameDto>>().Result;
+            
+            return View(VideoGameOptions);
         }
 
         // POST: Session/Create
@@ -106,8 +109,8 @@ namespace PersonalVideoGameLibrary.Controllers
 
             string url = "sessiondata/findsession/" + id;
             HttpResponseMessage response = client.GetAsync(url).Result;
-            SessionDto selectedSession = response.Content.ReadAsAsync<SessionDto>().Result;
-            return View(selectedSession);
+            SessionDto SelectedSession = response.Content.ReadAsAsync<SessionDto>().Result;
+            return View(SelectedSession);
         }
 
         // POST: Session/Edit/1

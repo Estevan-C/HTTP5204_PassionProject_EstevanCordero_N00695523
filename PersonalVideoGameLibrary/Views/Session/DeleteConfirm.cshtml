@@ -1,0 +1,12 @@
+﻿@model PersonalVideoGameLibrary.Models.SessionDto
+
+@{
+    ViewBag.Title = "DeleteConfirm";
+}
+
+<h2>Are you sure wish to delete this session message!</h2>
+<a href="/Session/List">Cancel</a>
+<h3>Session Message: @Model.SessionMsg</h3>
+<form action="/Session/Delete/@Model.SessionID" method="POST">
+    <input type="submit" value="Confirm Delete" />
+</form>

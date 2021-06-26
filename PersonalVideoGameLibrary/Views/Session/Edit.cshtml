@@ -1,0 +1,19 @@
+﻿@model PersonalVideoGameLibrary.Models.SessionDto
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Update Session Message</h2>
+<form action="/Session/Update/@Model.SessionID" method="POST">
+    <div style="display:none;">
+        <!--Pass through the Session ID-->
+        <input type="text" name="SessionID" value="@Model.SessionID" />
+    </div>
+    <div>
+        <label>Session Message</label> <input type="text" name="SessionMsg" value="@Model.SessionMsg" />
+    </div>
+    <div>
+        <input type="submit" value="Update Session Message" />
+    </div>
+</form>

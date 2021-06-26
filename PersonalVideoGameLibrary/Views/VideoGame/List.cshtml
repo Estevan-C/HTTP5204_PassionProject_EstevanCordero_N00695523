@@ -7,7 +7,7 @@
 <h2>List</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    <a class="btn btn-default" @Html.ActionLink("Create New", "New")
 </p>
 <table class="table">
     <tr>
@@ -15,43 +15,37 @@
             @Html.DisplayNameFor(model => model.VideoGameID)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.VgName)
+            @Html.DisplayNameFor(model => model.VideoGameName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.VgPrice)
+            @Html.DisplayNameFor(model => model.VideoGamePrice)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.VgHours)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SessionMsg)
+            @Html.DisplayNameFor(model => model.VideoGameHours)
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-<tr>
-    <td>
-        @Html.DisplayFor(modelItem => item.VideoGameID)
-    </td>
-    <td>
-        <a href="/VideoGame/Details/@item.VideoGameID">@Html.DisplayFor(modelItem => item.VgName)</a>
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.VgPrice)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.VgHours)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.SessionMsg)
-    </td>
-    <td>
-        @Html.ActionLink("Edit", "Edit", new { id = item.VideoGameID }) |
-        @Html.ActionLink("Details", "Details", new { id = item.VideoGameID }) |
-        @Html.ActionLink("Delete", "Delete", new { id = item.VideoGameID })
-    </td>
-</tr>
-}
-
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.VideoGameID)
+            </td>
+            <td>
+                <a href="/VideoGame/Details/@item.VideoGameID">@Html.DisplayFor(modelItem => item.VideoGameName)</a>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VideoGamePrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VideoGameHours)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.VideoGameID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.VideoGameID }) |
+                @Html.ActionLink("Delete", "DeleteConfirm", new { id = item.VideoGameID })
+            </td>
+        </tr>
+    }
 </table>

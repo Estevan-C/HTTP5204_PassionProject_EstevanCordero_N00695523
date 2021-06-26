@@ -1,4 +1,4 @@
-﻿using System;
+﻿ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -10,6 +10,8 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using PersonalVideoGameLibrary.Models;
 using System.Diagnostics;
+using System.Web;
+using System.IO;
 
 namespace PersonalVideoGameLibrary.Controllers
 {
@@ -34,41 +36,11 @@ namespace PersonalVideoGameLibrary.Controllers
             VideoGames.ForEach(v => VideoGameDtos.Add(new VideoGameDto()
             {
                 VideoGameID = v.VideoGameID,
-                VgName = v.VgName,
-                VgPrice = v.VgPrice,
-                VgHours = v.VgHours,
-                SessionID = v.Session.SessionID,
-                SessionMsg = v.Session.SessionMsg
-
-            }));
-
-            return Ok(VideoGameDtos);
-        }
-
-        /// <summary>
-        /// List all vide games information related to a particular session ID
-        /// </summary>
-        /// <returns>All videos games and the session messages that associate with it.</returns>
-        /// <param name="id">Session ID</param>
-        /// <example>
-        //  GET: api/VideoGameData/ListVideoGamesForSessions/10  
-        /// </example>
-        [HttpGet]
-        [ResponseType(typeof(VideoGameDto))]
-        public IHttpActionResult ListVideoGamesForSessions(int id)
-        {
-            List<VideoGames> VideoGames = db.VideoGames.Where(v => v.SessionID == id).ToList();
-            List<VideoGameDto> VideoGameDtos = new List<VideoGameDto>();
-
-            VideoGames.ForEach(v => VideoGameDtos.Add(new VideoGameDto()
-            {
-                VideoGameID = v.VideoGameID,
-                VgName = v.VgName,
-                VgPrice = v.VgPrice,
-                VgHours = v.VgHours,
-                SessionID = v.Session.SessionID,
-                SessionMsg = v.Session.SessionMsg
-
+                VideoGameName = v.VideoGameName,
+                VideoGamePrice = v.VideoGamePrice,
+                VideoGameHours = v.VideoGameHours,
+                VideoGameHasPic = v.VideoGameHasPic,
+                PicExtension = v.PicExtension
             }));
 
             return Ok(VideoGameDtos);
@@ -96,12 +68,9 @@ namespace PersonalVideoGameLibrary.Controllers
             VideoGames.ForEach(v => VideoGameDtos.Add(new VideoGameDto()
             {
                 VideoGameID = v.VideoGameID,
-                VgName = v.VgName,
-                VgPrice = v.VgPrice,
-                VgHours = v.VgHours,
-                SessionID = v.Session.SessionID,
-                SessionMsg = v.Session.SessionMsg
-
+                VideoGameName = v.VideoGameName,
+                VideoGamePrice = v.VideoGamePrice,
+                VideoGameHours = v.VideoGameHours
             }));
 
             return Ok(VideoGameDtos);
@@ -183,11 +152,11 @@ namespace PersonalVideoGameLibrary.Controllers
             VideoGameDto VideoGameDto = new VideoGameDto()
             {
                 VideoGameID = VideoGame.VideoGameID,
-                VgName = VideoGame.VgName,
-                VgPrice = VideoGame.VgPrice,
-                VgHours = VideoGame.VgHours,
-                SessionID = VideoGame.Session.SessionID,
-                SessionMsg = VideoGame.Session.SessionMsg
+                VideoGameName = VideoGame.VideoGameName,
+                VideoGamePrice = VideoGame.VideoGamePrice,
+                VideoGameHours = VideoGame.VideoGameHours,
+                VideoGameHasPic = VideoGame.VideoGameHasPic,
+                PicExtension = VideoGame.PicExtension
             };
             if (VideoGame == null)
             {
@@ -231,7 +200,11 @@ namespace PersonalVideoGameLibrary.Controllers
             }
 
             db.Entry(videoGames).State = EntityState.Modified;
+            // Pictures update is handle by another method.
+            db.Entry(videoGames).Property(v => v.VideoGameHasPic).IsModified = false;
+            db.Entry(videoGames).Property(v => v.PicExtension).IsModified = false;
 
+            // Problems where found here where the image does not get updated to the assign videogame.
             try
             {
                 db.SaveChanges();
@@ -251,6 +224,89 @@ namespace PersonalVideoGameLibrary.Controllers
             Debug.WriteLine("None of the conditions trigger");
             return StatusCode(HttpStatusCode.NoContent);
         }
+
+        /// <summary>
+        /// Receives the videogame picture data, uploads it to the web page, and updates the videogame HasPic option
+        /// </summary>
+        /// <param name="id">Videogame id</param>
+        /// <returns>Code 200 if successful</returns>
+        /// <example>
+        // curl -F videogamepic=@file.jpg "https://localhost:xx/api/VideoGameData/uploadvideogamepic/11"
+        /// POST: api/VideoGameData/UploadVideoGamePic/11
+        /// HEADER: enctype=multipart/form-data
+        /// FORM-DATA: image
+        /// </example>
+        [HttpPost]
+        public IHttpActionResult UploadVideoGamePic(int id)
+        {
+            bool haspic = false;
+            string picextension;
+            if (Request.Content.IsMimeMultipartContent())
+            {
+                // Test to see if the form data is received 
+                Debug.WriteLine("Received multipart form data");
+
+                int numfiles = HttpContext.Current.Request.Files.Count;
+                Debug.WriteLine("Files Received: " + numfiles);
+                // checks if the files have been received
+
+                // Checks if a file is posted
+                if (numfiles == 1 && HttpContext.Current.Request.Files[0] != null)
+                {
+                    var videogamePic = HttpContext.Current.Request.Files[0];
+                    // Check if the file is empty
+                    if (videogamePic.ContentLength > 0)
+                    {
+                        // Establish valid file types and changed to other file extensions
+                        var valtypes = new[] { "jpeg", "jpg", "png", "gif" };
+                        var extension = Path.GetExtension(videogamePic.FileName).Substring(1);
+                        // Check the extension of the file
+                        if (valtypes.Contains(extension))
+                        {
+                            try
+                            {
+                                // File name is the id of the image
+                                string fn = id + "." + extension;
+
+                                // Get a direct file path to ~/Content/VideoGames/{id}.{extension}
+                                string path = Path.Combine(HttpContext.Current.Server.MapPath("~/Content/Images/VideoGames/"), fn);
+
+                                // Save file
+                                videogamePic.SaveAs(path);
+
+                                // If successfull then we will get the fields
+                                haspic = true;
+                                picextension = extension;
+
+                                // Update the VideoGameHasPic and PicExtention fields in the database
+                                VideoGames SelectedVideoGame = db.VideoGames.Find(id);
+                                SelectedVideoGame.VideoGameHasPic = haspic;
+                                SelectedVideoGame.PicExtension = extension;
+                                db.Entry(SelectedVideoGame).State = EntityState.Modified;
+
+                                db.SaveChanges();
+                            }
+                            catch (Exception ex)
+                            {
+                                // In the event that the image is not saved successfully 
+                                // The following messages will appear in console
+                                Debug.WriteLine("Videogame Image was not saved successfully");
+                                Debug.WriteLine("Exception: " + ex);
+                                return BadRequest();
+                            }
+                        }
+                    }
+                }
+
+                return Ok();
+            }
+            else
+            {
+                // Not multipart form data
+                return BadRequest();
+            }
+        }
+
 
         /// <summary>
         /// Adds a video game into the system
@@ -301,6 +357,19 @@ namespace PersonalVideoGameLibrary.Controllers
             if (videoGames == null)
             {
                 return NotFound();
+            }
+
+            // Added if statement to delete image from path if included
+            if (videoGames.VideoGameHasPic && videoGames.PicExtension != "")
+            {
+                // Deletes image from path
+                string path = HttpContext.Current.Server.MapPath("~/Content/Images/VideoGames/" + id + "." + videoGames.PicExtension);
+                if (System.IO.File.Exists(path))
+                {
+                    // Console Message to confirm file being deleted
+                    Debug.WriteLine("File in process of being deleted");
+                    System.IO.File.Delete(path);
+                }
             }
 
             db.VideoGames.Remove(videoGames);

@@ -35,7 +35,10 @@ namespace PersonalVideoGameLibrary.Controllers
             Sessions.ForEach(s => SessionDtos.Add(new SessionDto()
             {
                 SessionID = s.SessionID,
-                SessionMsg = s.SessionMsg
+                SessionMsg = s.SessionMsg,
+                VideoGameID  = s.VideoGameID,
+                VideoGameName = s.VideoGames.VideoGameName
+
             }));
 
             return Ok(SessionDtos);
@@ -61,7 +64,9 @@ namespace PersonalVideoGameLibrary.Controllers
             SessionDto SessionDto = new SessionDto()
             {
                 SessionID = Session.SessionID,
-                SessionMsg = Session.SessionMsg
+                SessionMsg = Session.SessionMsg,
+                VideoGameID = Session.VideoGameID,
+                VideoGameName = Session.VideoGames.VideoGameName
             };
             if (Session == null)
             {
@@ -69,6 +74,32 @@ namespace PersonalVideoGameLibrary.Controllers
             }
 
             return Ok(SessionDto);
+        }
+
+        /// <summary>
+        /// List all sessions and content that matches to a video game id
+        /// </summary>
+        /// <returns>All session messages that relate to the video game id</returns>
+        /// <param name="id">VideoGame ID</param>
+        /// <example>
+        //  GET: api/VideoGameData/ListSessionsForVideoGames/10  
+        /// </example>
+        [HttpGet]
+        [ResponseType(typeof(SessionDto))]
+        public IHttpActionResult ListSessionsForVideoGames(int id)
+        {
+            List<Session> Session = db.Sessions.Where(v => v.VideoGameID == id).ToList();
+            List<SessionDto> SessionDtos = new List<SessionDto>();
+
+            Session.ForEach(v => SessionDtos.Add(new SessionDto()
+            {
+                SessionID = v.SessionID,
+                SessionMsg = v.SessionMsg,
+                VideoGameID = v.VideoGameID,
+                VideoGameName = v.VideoGames.VideoGameName
+            }));
+
+            return Ok(SessionDtos);
         }
 
         /// <summary>
@@ -106,6 +137,8 @@ namespace PersonalVideoGameLibrary.Controllers
             try
             {
                 db.SaveChanges();
+                // An Error Occurs when updating the session message
+                // It points to here.
             }
             catch (DbUpdateConcurrencyException)
             {

@@ -1,0 +1,27 @@
+﻿@model PersonalVideoGameLibrary.Models.ViewModels.DetailsSession
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+<nav>
+    <ul>
+        <li><a href="/Session/List">Go back to List</a></li>
+        <li><a href="/Session/Edit/@Model.SelectedSession.SessionID">Update</a></li>
+        <li><a style="color:#ab2020;" href="/Session/DeleteConfirm/@Model.SelectedSession.SessionID">Delete</a></li>
+    </ul>
+</nav>
+
+<div class="row">
+    <div class="col-md-6 col-sm-12">
+        <div>Video Games: @Model.SelectedSession.VideoGameName</div>
+    </div>
+    <div class="col-md-6 col-sm-12">
+        <h3>Messages: @Model.SelectedSession.SessionMsg</h3>
+        @foreach (var videogame in Model.RelatedVideoGame)
+        {
+            <a href="/VideoGame/Details/@videogame.VideoGameID">@videogame.VideoGameName</a>
+        }
+    </div>
+</div>

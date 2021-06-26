@@ -11,19 +11,17 @@ namespace PersonalVideoGameLibrary.Models
     {
         [Key]
         public int VideoGameID { get; set; }
-        public string VgName { get; set; }
-        public decimal VgPrice { get; set; }
-        public int VgHours { get; set; }
+        public string VideoGameName { get; set; }
+        public decimal VideoGamePrice { get; set; }
+        public int VideoGameHours { get; set; }
 
-       
+        // New Feature to allow images to be included with 
+        // the current information of video games.
 
-        // Reference the session table
-        // as a one to many relationship
-        // A video game can have multiple sessions
-        // A session can only have one video game
-        [ForeignKey("Session")]
-        public int SessionID { get; set; }
-        public virtual Session Session { get; set; }
+        // Data needed to keep track of videogame images uploaded
+        // Images can be found into /Content/Images/VideoGames/{id}.{extension}
+        public bool VideoGameHasPic { get; set; }
+        public string PicExtension { get; set; }
 
         // A video game can belong to many consoles
         public ICollection<Consoles> Consoles { get; set; }
@@ -37,10 +35,15 @@ namespace PersonalVideoGameLibrary.Models
     public class VideoGameDto
     {
         public int VideoGameID { get; set; }
-        public string VgName { get; set; }
-        public decimal VgPrice { get; set; }
-        public int VgHours { get; set; }
-        public int SessionID { get; set; }
-        public string SessionMsg { get; set; }
+        public string VideoGameName { get; set; }
+        public decimal VideoGamePrice { get; set; }
+        public int VideoGameHours { get; set; }
+        
+        //public int SessionID { get; set; }
+        //public string SessionMsg { get; set; }
+        
+        public bool VideoGameHasPic { get; set; }
+        public string PicExtension { get; set; }
+
     }
 }

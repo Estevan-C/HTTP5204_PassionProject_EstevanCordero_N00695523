@@ -38,7 +38,7 @@ namespace PersonalVideoGameLibrary.Controllers
             string url = "videogamedata/listvideogames";
             HttpResponseMessage response = client.GetAsync(url).Result;
 
-            // Output The response code is Ok
+           // Output The response code is Ok
            // Debug.WriteLine("The response code is ");
            // Debug.WriteLine(response.StatusCode);
 
@@ -60,32 +60,38 @@ namespace PersonalVideoGameLibrary.Controllers
             DetailsVideoGame ViewModel = new DetailsVideoGame();
 
 
-            //To make call video game api and retrieve one videogame
+            // To make call video game api and retrieve one videogame
             // curl https://localhost:44316/api/videogamedata/findvideogame/{id}
 
             string url = "videogamedata/findvideogame/" + id;
             HttpResponseMessage response = client.GetAsync(url).Result;
 
             // Output The response code is Ok
-           // Debug.WriteLine("The response code is ");
-           // Debug.WriteLine(response.StatusCode);
+            // Debug.WriteLine("The response code is ");
+            // Debug.WriteLine(response.StatusCode);
 
             // Grabs one videogame.
             VideoGameDto selectedVideoGame = response.Content.ReadAsAsync<VideoGameDto>().Result;
             // Output Videogame received : 
-            //Debug.WriteLine("Videogame received : ");
-            //Debug.WriteLine(selectedVideoGame.VgName);
+            // Debug.WriteLine("Videogame received : ");
+            // Debug.WriteLine(selectedVideoGame.VgName);
 
-            // ---- Using the View model and calling consoles for videogames
+            // Using the View model and calling consoles for videogames
             ViewModel.SelectedVideoGame = selectedVideoGame;
 
-            // show associated consoles with the videogame
+            // Show associated consoles with the videogame
             url = "consoledata/listconsoleforvideogame/" + id;
             response = client.GetAsync(url).Result;
             IEnumerable<ConsoleDto> AssingConsole = response.Content.ReadAsAsync<IEnumerable<ConsoleDto>>().Result;
 
             ViewModel.AssignConsole = AssingConsole;
 
+            // Show consoles not assign to any videogames
+            url = "consoledata/listconsolenotassignforvideoGame/" + id;
+            response = client.GetAsync(url).Result;
+            IEnumerable<ConsoleDto> UnAssignConsole = response.Content.ReadAsAsync<IEnumerable<ConsoleDto>>().Result;
+
+            ViewModel.UnAssignConsole = UnAssignConsole;
 
             return View(ViewModel);
         }
@@ -94,9 +100,9 @@ namespace PersonalVideoGameLibrary.Controllers
         [HttpPost]
         public ActionResult Assign(int id, int consoleID)
         {
-            Debug.WriteLine("Attempting to assign a videogame :" + id + " with the console " + consoleID);
+            // Debug.WriteLine("Attempting to assign a videogame :" + id + " with the console " + consoleID);
 
-            // call to the api to assign a video game with a console
+            // Call to the api to assign a video game with a console
             string url = "videogamedata/assignvideogamewithconsole/" + id + "/" + consoleID;
             HttpContent content = new StringContent("");
             content.Headers.ContentType.MediaType = "application/json";
@@ -109,9 +115,9 @@ namespace PersonalVideoGameLibrary.Controllers
         [HttpGet]
         public ActionResult UnAssign(int id, int consoleID)
         {
-            Debug.WriteLine("Attempting to unassign videogame :" + id + " with console: " + consoleID);
+            // Debug.WriteLine("Attempting to unassign videogame :" + id + " with console: " + consoleID);
 
-            //call to api to unassign a videogame with a console
+            // Call to api to unassign a videogame with a console
             string url = "videogamedata/unassignvideogamewithconsole/" + id + "/" + consoleID;
             HttpContent content = new StringContent("");
             content.Headers.ContentType.MediaType = "application/json";
@@ -126,18 +132,9 @@ namespace PersonalVideoGameLibrary.Controllers
         }
 
         // GET: VideoGame/New
-        // This will be used to get the list of sessions with videogames
-        // See Animal for example
         public ActionResult New()
         {
-            //information about all sessions in the system
-            // GET api/sessiondata/listsession
-
-            string url = "sessiondata/listsession";
-            HttpResponseMessage response = client.GetAsync(url).Result;
-            IEnumerable<SessionDto> sessionMsg = response.Content.ReadAsAsync<IEnumerable<SessionDto>>().Result;
-            
-            return View(sessionMsg);
+            return View();
         }
 
         // POST: VideoGame/Create
@@ -146,8 +143,8 @@ namespace PersonalVideoGameLibrary.Controllers
         {
             // Tested to see if the method was called
             // Outputed the name of the videogame in the console
-            Debug.WriteLine("Json payload is :");
-            //Debug.WriteLine(videogame.VgName);
+            // Debug.WriteLine("Json payload is :");
+            // Debug.WriteLine(videogame.VgName);
 
             // Add a new video game into our system
             // curl -H "Content-Type:application/json" -d @videogame.json https://localhost:44316/api/videogamedata/addvideogame
@@ -157,7 +154,7 @@ namespace PersonalVideoGameLibrary.Controllers
             string jsonpayload = jss.Serialize(videogame);
 
             // Accessing the full payload related to the videogame name
-            Debug.WriteLine(jsonpayload);
+            // Debug.WriteLine(jsonpayload);
             // All form input is passed and accessed
 
             // We need to convert the jsonpayload into a string for the request
@@ -206,7 +203,7 @@ namespace PersonalVideoGameLibrary.Controllers
 
         // POST: VideoGame/Update/10
         [HttpPost]
-        public ActionResult Update(int id, VideoGames videogame)
+        public ActionResult Update(int id, VideoGames videogame, HttpPostedFileBase VideoGamePic)
         {
             // Update a video game in the system
             // curl -H "Content-Type:application/json" -d @videogame.json https://localhost:44316/api/videogamedata/updatevideogame
@@ -217,7 +214,23 @@ namespace PersonalVideoGameLibrary.Controllers
             content.Headers.ContentType.MediaType = "application/json";
             HttpResponseMessage response = client.PostAsync(url, content).Result;
             Debug.WriteLine(content);
-            if(response.IsSuccessStatusCode)
+
+            // Update request is successful and we have image data
+            if (response.IsSuccessStatusCode && VideoGamePic != null)
+            {
+                // Update the videogame picture as a seperate request
+                Debug.WriteLine("Calling Upload Image Method");
+                // Send over image data for user
+                url = "VideoGameData/UploadVideoGamePic/" + id;
+
+                MultipartFormDataContent requestcontent = new MultipartFormDataContent();
+                HttpContent imagecontent = new StreamContent(VideoGamePic.InputStream);
+                requestcontent.Add(imagecontent, "VideoGamePic", VideoGamePic.FileName);
+                response = client.PostAsync(url, requestcontent).Result;
+
+                return RedirectToAction("List");
+            }
+            else if(response.IsSuccessStatusCode)
             {
                 return RedirectToAction("List");
             }
@@ -246,6 +259,7 @@ namespace PersonalVideoGameLibrary.Controllers
             // Delete a video game in our system
             // curl -H "Content-Type:application/json" -d @videogame.json https://localhost:44316/api/videogamedata/deletevideogame
 
+            // When trying to delete a videogame entry it will return error page.
             string url = "videogamedata/deletevideogame/" + id;
             HttpContent content = new StringContent("");
             content.Headers.ContentType.MediaType = "application/json";

@@ -1,0 +1,25 @@
+﻿@model IEnumerable<PersonalVideoGameLibrary.Models.VideoGameDto>
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create Session Message</h2>
+<form action="/Session/Create" method="POST">
+    <div>
+        <label>Session Message:</label> <input type="text" name="SessionMsg" />
+    </div>
+    <div>
+        <label>Video Game:</label>
+        <select name="VideoGameID">
+            @foreach (var videogame in Model)
+            {
+                <option value="@videogame.VideoGameID">@videogame.VideoGameName</option>
+            }
+        </select>
+    </div>
+    <div>
+        <input type="submit" value="Add Session Message" />
+    </div>
+</form>
+

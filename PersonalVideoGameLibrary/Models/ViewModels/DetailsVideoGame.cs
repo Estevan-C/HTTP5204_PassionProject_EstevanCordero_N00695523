@@ -13,6 +13,8 @@ namespace PersonalVideoGameLibrary.Models.ViewModels
         // Consoles that are already assign to a video game
         public IEnumerable<ConsoleDto> AssignConsole { get; set; }
 
+        // Consoles that are not assign to a video game
+        public IEnumerable<ConsoleDto> UnAssignConsole { get; set; }
         // Sessions that are assign to a video game
         //public IEnumerable<SessionDto> AssignSession { get; set; }
 

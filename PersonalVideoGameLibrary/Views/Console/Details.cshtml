@@ -1,0 +1,29 @@
+﻿@model PersonalVideoGameLibrary.Models.ViewModels.DetailsConsole 
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Console Information</h2>
+<h3>@Model.SelectedConsole.ConsoleName</h3>
+
+<nav>
+    <ul>
+        <li><a href="/Console/List">Go back to the list</a></li>
+        <li><a href="/Console/Edit/@Model.SelectedConsole.ConsoleID">Update Console Information</a></li>
+        <li><a style="color:#ab2020" href="/Console/DeleteConfirm/@Model.SelectedConsole.ConsoleID">Delete</a></li>
+    </ul>
+</nav>
+<div class="row">
+    <div class="col-md-6 col-sm-12">
+        <div>Console Name: @Model.SelectedConsole.ConsoleName</div>
+    </div>
+    <div class="col-md-6 col-sm-12">
+        <h4>Assign Video games to Console</h4>
+        @foreach (var videogame in Model.AssignVideoGames)
+        {
+            <a href="/VideoGame/Details/@videogame.VideoGameID">@videogame.VideoGameName</a><br />
+        }
+    </div>
+</div>
+
