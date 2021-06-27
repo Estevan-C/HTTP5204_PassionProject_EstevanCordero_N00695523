@@ -3,19 +3,25 @@
 @{
     ViewBag.Title = "Details";
 }
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/common_styles.css")
+</head>
 
 <h2>Details</h2>
 <nav>
-    <ul>
-        <li><a class="btn btn-default" href="/Session/List">Go back to List</a></li>
-        <li><a class="btn btn-default" href="/Session/Edit/@Model.SelectedSession.SessionID">Update</a></li>
-        <li><a class="btn btn-default" style="color:#ab2020;" href="/Session/DeleteConfirm/@Model.SelectedSession.SessionID">Delete</a></li>
+    <ul class="options">
+        <li><a class="shared-btn" href="/Session/List">Go back to List</a></li>
+        <li><a class="shared-btn" href="/Session/Edit/@Model.SelectedSession.SessionID">Update</a></li>
+        <li><a class="shared-btn" style="color:#ab2020;" href="/Session/DeleteConfirm/@Model.SelectedSession.SessionID">Delete</a></li>
     </ul>
 </nav>
 
 <div class="row">
     <div class="col-md-6 col-sm-12">
-        <div>Video Games: @Model.SelectedSession.VideoGameName</div>
+        <div class="labelStyle">Video Games: @Model.SelectedSession.VideoGameName</div>
     </div>
     <div class="col-md-6 col-sm-12">
         <h3>Messages: @Model.SelectedSession.SessionMsg</h3>

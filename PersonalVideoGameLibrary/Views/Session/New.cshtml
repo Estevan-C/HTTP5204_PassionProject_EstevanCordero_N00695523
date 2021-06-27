@@ -3,17 +3,24 @@
 @{
     ViewBag.Title = "Create";
 }
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/common_styles.css")
+</head>
 
-<h2>Create Session Message</h2>
+<h2>Create A Session Message</h2>
 
-<a class="btn btn-default" href="/Session/List">Go back to list</a>
+<a class="shared-btn" href="/Session/List">Go back to list</a>
 
 <form action="/Session/Create" method="POST">
     <div>
-        <label>Session Message:</label> <input type="text" name="SessionMsg" />
+        <label class="labelStyle">Session Message:</label> <input type="text" name="SessionMsg" />
     </div>
+    <br />
     <div>
-        <label>Video Game:</label>
+        <label class="labelStyle">Video Game:</label>
         <select name="VideoGameID">
             @foreach (var videogame in Model)
             {
@@ -21,8 +28,9 @@
             }
         </select>
     </div>
+    <br />
     <div>
-        <input type="submit" value="Add Session Message" />
+        <input class="shared-btn" type="submit" value="Add Session Message" />
     </div>
 </form>
 

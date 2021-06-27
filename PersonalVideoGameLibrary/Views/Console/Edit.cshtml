@@ -3,12 +3,21 @@
 @{
     ViewBag.Title = "Edit";
 }
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/common_styles.css")
+</head>
 
 <h2>Update Console</h2>
 
-<a class="btn btn-default" href="/Console/List">Go back to list</a>
-<a class="btn btn-default" style="color:#ab2020;" href="/Console/DeleteConfirm/@Model.ConsoleID">Delete</a>
-
+<nav>
+    <ul class="options">
+        <li><a class="shared-btn" href="/Console/List">Go back to list</a></li>
+        <li><a class="shared-btn" style="color:#ab2020;" href="/Console/DeleteConfirm/@Model.ConsoleID">Delete</a></li>
+    </ul>
+</nav>
 <p>
     <form action="/Console/Update/@Model.ConsoleID" method="POST">
         <div style="display:none">
@@ -16,10 +25,10 @@
             <input type="text" name="ConsoleID" value="@Model.ConsoleID" />
         </div>
         <div>
-            <label>Console Name:</label> <input type="text" name="ConsoleName" value="@Model.ConsoleName" />
+            <label class="labelStyle">Console Name:</label> <input type="text" name="ConsoleName" value="@Model.ConsoleName" />
         </div>
         <div>
-            <input class="btn btn-default" type="submit" value="Update Console" />
+            <input class="shared-btn" type="submit" value="Update Console" />
         </div>
     </form>
 </p>

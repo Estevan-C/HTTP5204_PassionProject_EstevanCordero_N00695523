@@ -3,17 +3,24 @@
 @{
     ViewBag.Title = "DeleteConfirm";
 }
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/common_styles.css")
+</head>
 
 <h2>Are you sure you want to delete this videogame?</h2>
+
 <nav>
-    <ul>
-        <li><a class="btn btn-default" href="/VideoGame/List">Cancel</a></li>
-        <li><a class="btn btn-default" href="/VideoGame/Edit/@Model.VideoGameID">Update Instead</a></li>
+    <ul class="options">
+        <li><a class="shared-btn" href="/VideoGame/List">Cancel</a></li>
+        <li><a class="shared-btn" href="/VideoGame/Edit/@Model.VideoGameID">Update Instead</a></li>
         <!--Error is thrown when clicking on the update button-->
     </ul>
 </nav>
 <h3>@Model.VideoGameName</h3>
 <form action="/VideoGame/Delete/@Model.VideoGameID" method="POST">
-    <input type="submit" value="Confirm Delete" />
+    <input class="shared-btn" style="color:red" type="submit" value="Confirm Delete" />
 </form>
 

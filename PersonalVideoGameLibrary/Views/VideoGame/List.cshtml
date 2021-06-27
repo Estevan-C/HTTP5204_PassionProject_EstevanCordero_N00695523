@@ -3,25 +3,31 @@
 @{
     ViewBag.Title = "List";
 }
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/common_styles.css")
+</head>
 
-<h2>List</h2>
+<h2>Video Game List</h2>
 
 <p>
-    <a class="btn btn-default" @Html.ActionLink("Create New", "New") </a>
+    <a class="shared-btn" @Html.ActionLink("New Entry", "New") </a>
 </p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.VideoGameID)
+            Entry Number
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.VideoGameName)
+            Video Game Name
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.VideoGamePrice)
+            Price
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.VideoGameHours)
+            Hours
         </th>
         <th></th>
     </tr>

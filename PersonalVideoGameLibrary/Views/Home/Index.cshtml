@@ -1,13 +1,18 @@
 ﻿@{
     ViewBag.Title = "Home Page";
 }
-
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/common_styles.css")
+</head>
 <div class="jumbotron">
     <h1>Estevans Passion Project</h1>
     <p class="lead">
         This project allows users to keep track on video games they are currently playing!
     </p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+    <p><a href="https://github.com/Estevan-C/HTTP5204_PassionProject_EstevanCordero_N00695523.git" class="btn btn-primary btn-lg">Git Hub Link &raquo;</a></p>
 </div>
 
 <div class="row">
@@ -16,16 +21,16 @@
         <p>
             What platform is the video game on?
         </p>
-        <p><a class="btn btn-default" @Html.ActionLink("Get Started!", "New", "Console")</a></p>
+        <a class="shared-btn" @Html.ActionLink("Get Started!", "New", "Console")</a>
     </div>
     <div class="col-md-4">
         <h2>Video Game</h2>
         <p>What is the game that is being added to the system?</p>
-        <p><a class="btn btn-default" @Html.ActionLink("Check Out Your List", "List", "VideoGame")</a></p>
+        <a class="shared-btn" @Html.ActionLink("Check Out Your List", "List", "VideoGame")</a>
     </div>
     <div class="col-md-4">
         <h2>Sessions</h2>
         <p>Comments you wish to leave for that particular video game!</p>
-        <p><a class="btn btn-default" @Html.ActionLink("Leave Your Comments Here!", "List", "Session")</a></p>
+        <a class="shared-btn" @Html.ActionLink("Leave Your Comments Here!", "List", "Session")</a>
     </div>
 </div>

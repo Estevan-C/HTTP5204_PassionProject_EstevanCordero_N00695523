@@ -3,26 +3,32 @@
 @{
     ViewBag.Title = "Create";
 }
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/common_styles.css")
+</head>
 
 <h2>Create Videogame</h2>
 
-<a class="btn btn-default" href="/VideoGame/List">Go back to list</a>
+<a class="shared-btn" href="/VideoGame/List">Go back to list</a>
 
 <form action="/VideoGame/Create" method="POST">
     <div>
-        <label>Videogame Name:</label> <input type="text" name="VideoGameName" />
+        <label class="labelStyle">Videogame Name:</label> <input type="text" name="VideoGameName" />
     </div>
     <div>
-        <label>Videogame Price</label> <input type="number" step=".01" name="VideoGamePrice" />
+        <label class="labelStyle">Videogame Price</label> <input type="number" step=".01" name="VideoGamePrice" />
     </div>
     <div>
-        <label>Videogame Hour</label> <input type="number" name="VideoGameHours" />
+        <label class="labelStyle">Videogame Hour</label> <input type="number" name="VideoGameHours" />
     </div>
     <div>
-        <label>Add a Session Message</label>
+        <label class="labelStyle">Add a Session Message</label>
         <input type="text" name="SessionMsg" />
     </div>
     <div>
-        <input type="submit" value="Add Videogame"/>
+        <input class="shared-btn" type="submit" value="Add Videogame"/>
     </div>
 </form>

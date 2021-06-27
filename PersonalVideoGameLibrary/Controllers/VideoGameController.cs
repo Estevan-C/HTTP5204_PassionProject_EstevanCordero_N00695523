@@ -87,7 +87,7 @@ namespace PersonalVideoGameLibrary.Controllers
             ViewModel.AssignConsole = AssingConsole;
 
             // Show consoles not assign to any videogames
-            url = "consoledata/listconsolenotassignforvideoGame/" + id;
+            url = "consoledata/listconsolenotassignforvideogame/" + id;
             response = client.GetAsync(url).Result;
             IEnumerable<ConsoleDto> UnAssignConsole = response.Content.ReadAsAsync<IEnumerable<ConsoleDto>>().Result;
 

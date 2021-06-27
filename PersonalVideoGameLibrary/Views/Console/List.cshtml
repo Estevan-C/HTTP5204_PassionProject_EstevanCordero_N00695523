@@ -3,16 +3,21 @@
 @{
     ViewBag.Title = "List";
 }
-
-<h2>List</h2>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/common_styles.css")
+</head>
+<h2>Console List</h2>
 
 <p>
-   <a class="btn btn-default" @Html.ActionLink("Create New", "New") </a>
+   <a class="shared-btn" @Html.ActionLink("Create New", "New") </a>
 </p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.ConsoleName)
+            Console Name
         </th>
         <th></th>
     </tr>
@@ -20,7 +25,7 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            <a href="Console/Details/@item.ConsoleID">@Html.DisplayFor(modelItem => item.ConsoleName)</a>
+            @Html.DisplayFor(modelItem => item.ConsoleName)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.ConsoleID }) |

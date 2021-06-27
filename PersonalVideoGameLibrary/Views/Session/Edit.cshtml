@@ -3,21 +3,29 @@
 @{
     ViewBag.Title = "Edit";
 }
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/common_styles.css")
+</head>
 
-<h2>Update Session Message</h2>
-
-<a class="btn btn-default" href="/Session/List">Go back to list</a>
-<a class="btn btn-default" style="color:#ab2020;" href="/Session/DeleteConfirm/@Model.SessionID">Delete</a>
-
+<h2>Update The Session Message</h2>
+<nav>
+    <ul class="options">
+        <li><a class="shared-btn" href="/Session/List">Go back to list</a></li>
+        <li><a class="shared-btn" style="color:#ab2020;" href="/Session/DeleteConfirm/@Model.SessionID">Delete</a></li>
+    </ul>
+</nav>
 <form action="/Session/Update/@Model.SessionID" method="POST">
     <div style="display:none;">
         <!--Pass through the Session ID-->
         <input type="text" name="SessionID" value="@Model.SessionID" />
     </div>
     <div>
-        <label>Session Message</label> <input type="text" name="SessionMsg" value="@Model.SessionMsg" />
+        <label class="labelStyle">Session Message</label> <input type="text" name="SessionMsg" value="@Model.SessionMsg" />
     </div>
     <div>
-        <input type="submit" value="Update Session Message" />
+        <input class="shared-btn" type="submit" value="Update Session Message" />
     </div>
 </form>

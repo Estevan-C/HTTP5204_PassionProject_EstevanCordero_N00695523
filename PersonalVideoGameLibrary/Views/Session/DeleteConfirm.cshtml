@@ -3,10 +3,19 @@
 @{
     ViewBag.Title = "DeleteConfirm";
 }
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/common_styles.css")
+</head>
 
 <h2>Are you sure wish to delete this session message!</h2>
-<a class="btn btn-default" href="/Session/List">Cancel</a>
+
+<a class="shared-btn" href="/Session/List">Cancel</a>
+
 <h3>Session Message: @Model.SessionMsg</h3>
+
 <form action="/Session/Delete/@Model.SessionID" method="POST">
-    <input type="submit" value="Confirm Delete" />
+    <input class="shared-btn" style="color:red" type="submit" value="Confirm Delete" />
 </form>
