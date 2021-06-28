@@ -21,13 +21,10 @@
 
 <div class="row">
     <div class="col-md-6 col-sm-12">
-        <div class="labelStyle">Video Games: @Model.SelectedSession.VideoGameName</div>
+        <div class="labelStyle">Assign To: 
+        <a href="/VideoGame/Details/@Model.SelectedSession.VideoGameID">@Model.SelectedSession.VideoGameName</a></div>
     </div>
     <div class="col-md-6 col-sm-12">
-        <h3>Messages: @Model.SelectedSession.SessionMsg</h3>
-        @foreach (var videogame in Model.RelatedVideoGame)
-        {
-            <a class="btn btn-default" href="/VideoGame/Details/@videogame.VideoGameID">@videogame.VideoGameName</a>
-        }
+        <h3>Messages: @Model.SelectedSession.SessionMsg</h3>  
     </div>
 </div>
