@@ -19,6 +19,7 @@
     - Including a rating system for the video games.
     - Merging session and video games into one page instead of seperate pages.
     - Allowing users to login, and have seperate library.
+    - Making a website to access the project
        
 ## Know Bugs
   - Can't delete a video game entry.
